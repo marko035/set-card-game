@@ -1,0 +1,14 @@
+{
+  "name": "fullstack-monorepo",
+  "private": true,
+  "scripts": {
+    "install": "npm run install-backend && npm run install-frontend",
+    "install-backend": "npm install --prefix backend",
+    "install-frontend": "npm install --prefix frontend",
+    "build": "npm run build-frontend",
+    "build-frontend": "npm run build --prefix frontend",
+    "postinstall": "npm run build-frontend",
+    "start": "npm run start-backend",
+    "start-backend": "npm start --prefix backend"
+  }
+}
