@@ -9,9 +9,9 @@ const app = express();
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // Catch-all: return React's index.html for any unknown paths
-// app.get("/*splat", (req, res) => {
-//   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-// });
+app.get("/*splat", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
 
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
