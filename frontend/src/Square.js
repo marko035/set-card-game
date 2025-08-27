@@ -1,8 +1,6 @@
-import SquareFilled from "./shapes/square/SquareFilled";
-import SquareOutline from "./shapes/square/SquareOutline";
-import SquareStripped from "./shapes/square/SquareStripped";
+import SquareShape from "./shapes/square/SquareShape";
 
-export default function Square({ num, color, shading, shape, cardIndex }) {
+export default function Square({ num, color, shading }) {
   return (
     <div
       style={{
@@ -10,17 +8,11 @@ export default function Square({ num, color, shading, shape, cardIndex }) {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        height: "100px",
-        gap: "10px",
       }}
     >
-      {Array.from({ length: num }).map((_, i) => {
-        if (shading === "solid") return <SquareFilled key={i} color={color} />;
-        if (shading === "striped")
-          return <SquareStripped key={i} color={color} cardIndex={cardIndex} />;
-        if (shading === "outline")
-          return <SquareOutline key={i} color={color} />;
-      })}
+      {Array.from({ length: num }).map((_, i) => (
+        <SquareShape color={color} shading={shading} />
+      ))}
     </div>
   );
 }

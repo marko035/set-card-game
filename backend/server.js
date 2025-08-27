@@ -9,9 +9,9 @@ const app = express();
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // Catch-all: return React's index.html for any unknown paths
-app.get("/*splat", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
-});
+// app.get("/*splat", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+// });
 
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
@@ -20,7 +20,7 @@ const io = new Server(server, { cors: { origin: "*" } });
 const ATTRIBUTES = {
   number: [1, 2, 3],
   shape: ["oval", "squiggle", "diamond"],
-  color: ["red", "green", "purple"],
+  color: ["#16C47F", "#FF9D23", "#F93827"],
   shading: ["solid", "striped", "outline"],
 };
 
