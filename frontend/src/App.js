@@ -3,8 +3,8 @@ import io from "socket.io-client";
 import Card from "./Card"; // We'll create this
 import FindSet from "./FindSet";
 
-const socket = io("https://set-card-game.onrender.com");
-// const socket = io("http://localhost:3001");
+// const socket = io("https://set-card-game.onrender.com");
+const socket = io("http://localhost:3001");
 
 function App() {
   const [roomId, setRoomId] = useState("defaultRoom"); // Or prompt user
@@ -55,6 +55,9 @@ function App() {
     socket.on("invalidSet", () => {
       alert("Not a set!");
       setSelected([]);
+    });
+    socket.on("gameOver", () => {
+      alert("Game Over!");
     });
 
     setIsJoined(true);
@@ -121,6 +124,7 @@ function App() {
         ))}
       </div> */}
       <FindSet board={gameState.board} />
+      <div>Remaining deck cards: {gameState?.deck?.length}</div>
     </div>
   );
 }
