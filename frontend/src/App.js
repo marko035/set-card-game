@@ -3,7 +3,8 @@ import io from "socket.io-client";
 import Card from "./Card"; // We'll create this
 import FindSet from "./FindSet";
 
-const socket = io("https://set-card-game.onrender.com");
+const socket = io("http://192.168.0.27:3001");
+// const socket = io("https://set-card-game.onrender.com");
 
 function App() {
   const [roomId, setRoomId] = useState("defaultRoom"); // Or prompt user
@@ -90,13 +91,23 @@ function App() {
   }
 
   return (
-    <div style={{ margin: "20px" }}>
+    <div
+      style={{
+        margin: "20px",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "space-between",
+        flexDirection: "column",
+      }}
+    >
       {/* <h1>Room: {roomId}</h1> */}
       <div
         style={{
           display: "grid",
           gap: "10px",
           placeItems: "center",
+          marginTop: "20px",
         }}
         className="container"
       >
@@ -110,16 +121,27 @@ function App() {
           />
         ))}
       </div>
-      {/* <div>
-        <h2>Scores:</h2>
-        {Object.entries(gameState.scores).map(([playerId, score]) => (
-          <p key={playerId}>
-            {gameState?.players.find((player) => player.id === playerId).name}:{" "}
-            {score}
-          </p>
-        ))}
-      </div> */}
-      <FindSet board={gameState.board} />
+      <div style={{ margin: "20px" }}>
+        <p>Deck: {gameState?.deck?.length}/81</p>
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            flexWrap: "wrap",
+          }}
+        >
+          {Object.entries(gameState.scores).map(([playerId, score]) => (
+            <p key={playerId}>
+              {
+                gameState?.players.find((player) => player.id === playerId)
+                  ?.name
+              }
+              : {score}
+            </p>
+          ))}
+        </div>
+      </div>
+      {/* <FindSet board={gameState.board} /> */}
     </div>
   );
 }

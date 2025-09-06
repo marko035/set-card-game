@@ -75,7 +75,7 @@ function hasSet(board) {
 
 // Ensure initial board has a set
 function dealInitialBoard(deck) {
-  let board = deck.splice(0, 12);
+  let board = deck.splice(0, 18);
   let attempts = 0;
   const maxAttempts = 5;
 
@@ -84,7 +84,7 @@ function dealInitialBoard(deck) {
       board.push(...deck.splice(0, 3));
     } else {
       deck.push(...board);
-      board = shuffle(deck).splice(0, 12);
+      board = shuffle(deck).splice(0, 18);
     }
     attempts++;
   }
@@ -154,6 +154,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
+    console.log(rooms[socket.id]);
     // Clean up rooms if needed
   });
 });
