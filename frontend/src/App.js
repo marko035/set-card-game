@@ -3,8 +3,8 @@ import io from "socket.io-client";
 import Card from "./Card"; // We'll create this
 import FindSet from "./FindSet";
 
-const socket = io("http://192.168.0.27:3001");
-// const socket = io("https://set-card-game.onrender.com");
+// const socket = io("http://192.168.0.27:3001");
+const socket = io("https://set-card-game.onrender.com");
 
 function App() {
   const [roomId, setRoomId] = useState("defaultRoom"); // Or prompt user
