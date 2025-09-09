@@ -3,7 +3,12 @@ import io from "socket.io-client";
 import Card from "./Card";
 import FindSet from "./FindSet";
 
-const socket = io(process.env.REACT_APP_API_URL);
+const socket = io(process.env.REACT_APP_API_URL, {
+      reconnection: true,
+      reconnectionAttempts: 5,     // Try 5 times before giving up
+      reconnectionDelay: 1000,     // Wait 1 second before retrying
+      transports: ['websocket'],   // Force WebSocket over polling
+    });
 
 function App() {
   const [roomId, setRoomId] = useState("defaultRoom"); // Or prompt user
