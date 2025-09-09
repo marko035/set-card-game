@@ -3,7 +3,7 @@ import Elipse from "./Elipse";
 import Squiggle from "./Squiggle";
 import Square from "./Square";
 
-function Card({ card, onClick, isSelected, cardIndex }) {
+function Card({ card, onClick, isSelected, smallCard }) {
   const { num, shape, color, shading } = card;
 
   return (
@@ -20,6 +20,7 @@ function Card({ card, onClick, isSelected, cardIndex }) {
         transition: "all 0.2s ease-in-out",
         boxShadow: isSelected ? "0 4px 6px rgba(0, 0, 0, 0.1)" : "none",
         backgroundColor: "#fff",
+        width: `${smallCard ? 70 : 80}%`,
       }}
       onMouseEnter={(e) => {
         if (!isSelected) e.currentTarget.style.border = "2px solid #6b7280";
@@ -29,31 +30,13 @@ function Card({ card, onClick, isSelected, cardIndex }) {
       }}
     >
       {shape === "oval" && (
-        <Elipse
-          num={num}
-          color={color}
-          shading={shading}
-          shape={shape}
-          cardIndex={cardIndex}
-        />
+        <Elipse num={num} color={color} shading={shading} shape={shape} />
       )}
       {shape === "squiggle" && (
-        <Squiggle
-          num={num}
-          color={color}
-          shading={shading}
-          shape={shape}
-          cardIndex={cardIndex}
-        />
+        <Squiggle num={num} color={color} shading={shading} shape={shape} />
       )}
       {shape === "diamond" && (
-        <Square
-          num={num}
-          color={color}
-          shading={shading}
-          shape={shape}
-          cardIndex={cardIndex}
-        />
+        <Square num={num} color={color} shading={shading} shape={shape} />
       )}
     </div>
   );

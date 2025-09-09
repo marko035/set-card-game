@@ -36,7 +36,7 @@ function generateDeck() {
       }
     }
   }
-  return deck;
+  return deck.splice(0, 12);
 }
 
 // Shuffle array
@@ -117,7 +117,9 @@ io.on("connection", (socket) => {
       // Remove selected cards
       room.board = room.board.filter(
         (card) =>
-          !selectedCards.some((s) => JSON.stringify(s) === JSON.stringify(card))
+          !selectedCards.some(
+            (s) => JSON.stringify(s) === JSON.stringify(card),
+          ),
       );
 
       // Deal new cards to maintain at least 12 cards if possible
@@ -139,8 +141,15 @@ io.on("connection", (socket) => {
 
       // Check if game should end (no sets and deck empty)
       if (!hasSet(room.board) && room.deck.length === 0) {
+        console.log("game over", room);
+        const winner = Object.entries(room.scores)?.reduce((max, current) => {
+          return current[1] > max[1] ? current : max;
+        }, Object.entries(room.scores)[0]);
         io.to(roomId).emit("gameOver", {
-          message: "Game over! No sets remain and deck is empty.",
+          winner: {
+            name: room.players.find((player) => player.id === winner[0]).name,
+            score: winner[1],
+          },
         });
       }
 
@@ -160,5 +169,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(3001, () =>
-  console.log("Backend running on http://localhost:3001")
+  console.log("Backend running on http://localhost:3001"),
 );

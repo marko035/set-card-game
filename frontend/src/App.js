@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
-import Card from "./Card"; // We'll create this
+import Card from "./Card";
 import FindSet from "./FindSet";
 
 const socket = io(process.env.REACT_APP_API_URL);
@@ -12,25 +12,25 @@ function App() {
   const [selected, setSelected] = useState([]);
   const [isJoined, setIsJoined] = useState(false);
 
-  // useEffect(() => {
-  //   socket.emit("joinRoom", roomId, playerName);
-
-  //   socket.on("gameState", (state) => setGameState(state));
-  //   socket.on("setFound", ({ finder, selectedCards }) => {
-  //     alert(`Set found by ${finder}!`);
-  //     setSelected([]);
-  //   });
-  //   socket.on("invalidSet", () => {
-  //     alert("Not a set!");
-  //     setSelected([]);
-  //   });
-
-  //   return () => {
-  //     socket.off("gameState");
-  //     socket.off("setFound");
-  //     socket.off("invalidSet");
-  //   };
-  // }, [roomId, playerName]);
+  useEffect(() => {
+    socket.on("gameState", (state) => {
+      console.log(state);
+      console.log("Set game state: ", gameState);
+      setGameState(state);
+    });
+    socket.on("setFound", ({ finder, selectedCards }) => {
+      // alert(`Set found by ${finder}!`);
+      console.log(gameState);
+      setSelected([]);
+    });
+    socket.on("invalidSet", () => {
+      alert("Not a set!");
+      setSelected([]);
+    });
+    socket.on("gameOver", ({ winner }) => {
+      alert(`Winner is ${winner.name} with score ${winner.score}`);
+    });
+  }, []);
 
   const handleCardClick = (card) => {
     if (selected.includes(card)) {
@@ -46,15 +46,6 @@ function App() {
 
   const joinRoom = () => {
     socket.emit("joinRoom", roomId, playerName);
-    socket.on("gameState", (state) => setGameState(state));
-    socket.on("setFound", ({ finder, selectedCards }) => {
-      // alert(`Set found by ${finder}!`);
-      setSelected([]);
-    });
-    socket.on("invalidSet", () => {
-      alert("Not a set!");
-      setSelected([]);
-    });
 
     setIsJoined(true);
   };
@@ -107,6 +98,7 @@ function App() {
           gap: "10px",
           placeItems: "center",
           marginTop: "20px",
+          gridTemplateColumns: `repeat(${gameState?.board?.length > 12 ? 4 : 3}, 1fr)`,
         }}
         className="container"
       >
