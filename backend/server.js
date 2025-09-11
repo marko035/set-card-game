@@ -21,7 +21,7 @@ if (isProd) {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
   
   // Catch-all: return React's index.html for any unknown paths
-  app.get("/*", (req, res) => {
+  app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
   });
 }
