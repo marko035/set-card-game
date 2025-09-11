@@ -6,7 +6,12 @@ import Toast from "./Toast";
 import GameHeader from "./GameHeader";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://192:168.0.27:3001";
-const socket = io(API_URL, { transports: ["websocket"] });
+const socket = io(API_URL, { transports: ["websocket"] }, {
+      reconnection: true,
+      reconnectionAttempts: 5,     // Try 5 times before giving up
+      reconnectionDelay: 1000,     // Wait 1 second before retrying
+      transports: ['websocket'],   // Force WebSocket over polling
+    });
 
 function App() {
   const [roomId, setRoomId] = useState("defaultRoom"); // Or prompt user
