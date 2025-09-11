@@ -20,7 +20,7 @@ function generateDeck() {
       }
     }
   }
-  return deck.splice(0,12);
+  return deck;
 }
 
 // Shuffle array using Fisher-Yates algorithm
