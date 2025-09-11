@@ -16,13 +16,25 @@ const app = express();
 const isProd = process.env.NODE_ENV === "production";
 const PORT = process.env.PORT || 3001;
 
+// Health check route
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 // Serve static files from React app only in production
 if (isProd) {
-  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  const staticPath = path.join(__dirname, "../frontend/build");
+  app.use(express.static(staticPath));
   
   // Catch-all: return React's index.html for any unknown paths
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+    const indexPath = path.join(staticPath, "index.html");
+    res.sendFile(indexPath, (err) => {
+      if (err) {
+        console.error("Error serving index.html:", err);
+        res.status(500).send("Error loading application");
+      }
+    });
   });
 }
 
